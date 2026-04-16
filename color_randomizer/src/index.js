@@ -9,21 +9,20 @@ const jsonInputFileFormat = JSON.parse(inputFile);
 
 // picking random colors
 const randomColorCount = 5;
-const randomColors = [];
-const colorSet = new Set();
-for (let i = 0; i < randomColorCount; i++) {
-	// to get unique random color
-	while (true) {
-		const randomIndex = Math.floor(Math.random() * jsonInputFileFormat.length);
-		if (colorSet.has(randomIndex)) {
-			continue;
-		}
 
-		// add to new hashset
-		randomColors.push(jsonInputFileFormat[randomIndex]);
-		colorSet.add(randomIndex);
-		break;
-	}
+// if randomColorCount is higher than avail colors, risk of infinite loop
+if (randomColorCount > jsonInputFileFormat.length) {
+	throw new Error(
+		"Random color count exceeds available colors in the palette.",
+	);
+}
+
+const randomColors = [];
+for (let i = 0; i < randomColorCount; i++) {
+	const randomIndex = Math.floor(Math.random() * jsonInputFileFormat.length);
+
+	randomColors.push(jsonInputFileFormat[randomIndex]);
+	jsonInputFileFormat.splice(randomIndex, 1);
 }
 
 // write the unique random colors to a new file
