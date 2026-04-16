@@ -1,5 +1,4 @@
 // imports
-import chalk from "chalk";
 import * as dotenv from "dotenv";
 import http from "http";
 
@@ -12,7 +11,7 @@ const server = http.createServer((req, res) => {
 
 		const color = `#${req.url.split("/color/")[1]}`;
 
-    // return html with the color
+		// return html with the color
 		res.end(`
       <html>
         <body>
