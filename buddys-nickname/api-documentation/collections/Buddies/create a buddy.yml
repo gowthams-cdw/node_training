@@ -1,0 +1,24 @@
+info:
+  name: create a buddy
+  type: http
+  seq: 4
+
+http:
+  method: POST
+  url: "{{BASE_URL}}/buddies"
+  body:
+    type: json
+    data: |-
+      {
+        "realName": "Gowtham S",
+        "nickName": "silentFellow",
+        "dob": "31/03/2004",
+        "hobbies": ["philosophy", "anime", "musics"]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
