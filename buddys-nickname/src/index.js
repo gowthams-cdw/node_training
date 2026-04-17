@@ -1,7 +1,8 @@
 // imports
+
+import fs from "node:fs";
 import * as dotenv from "dotenv";
 import express from "express";
-import fs from "fs";
 import { DATA_FILE_PATH } from "./constants/index.js";
 import { errorHandler } from "./middlewares/index.js";
 import { buddiesRouter } from "./routes/index.js";
