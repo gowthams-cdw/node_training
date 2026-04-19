@@ -1,0 +1,14 @@
+2026-04-19T17:00:23.606Z ERROR MongooseServerSelectionError: getaddrinfo ENOTFOUND invalidhost
+    at _handleConnectionErrors (/Users/gowthams/Projects/node_training/buddys-nickname-db/node_modules/mongoose/lib/connection.js:1180:11)
+    at NativeConnection.openUri (/Users/gowthams/Projects/node_training/buddys-nickname-db/node_modules/mongoose/lib/connection.js:1111:11)
+    at async connectDB (file:///Users/gowthams/Projects/node_training/buddys-nickname-db/src/db/index.js:12:3)
+    at async init (file:///Users/gowthams/Projects/node_training/buddys-nickname-db/src/index.js:32:3)
+2026-04-19T17:02:06.427Z ERROR Error: Server not started intentionally.
+    at init (file:///Users/gowthams/Projects/node_training/buddys-nickname-db/src/index.js:37:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-04-19T17:02:27.104Z ERROR Error: Server not started intentionally.
+    at init (file:///Users/gowthams/Projects/node_training/buddys-nickname-db/src/index.js:37:7)
+    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)
+2026-04-19T17:02:35.186Z ERROR Failed to start the server Server not started intentionally.
+2026-04-19T17:36:38.512Z ERROR "Buddy not found"
+2026-04-19T17:37:49.790Z ERROR "Buddy not found"

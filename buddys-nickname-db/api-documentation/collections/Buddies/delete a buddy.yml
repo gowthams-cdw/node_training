@@ -1,21 +1,15 @@
 info:
-  name: update a buddy
+  name: delete a buddy
   type: http
-  seq: 5
+  seq: 6
 
 http:
-  method: PUT
+  method: DELETE
   url: "{{BASE_URL}}/buddies/:id"
   params:
     - name: id
-      value: EMP1776357211312
+      value: EMP1776587528774
       type: path
-  body:
-    type: json
-    data: |-
-      {
-        "nickName": "silentFellow"
-      }
   auth: inherit
 
 settings:
