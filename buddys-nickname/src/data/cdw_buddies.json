@@ -1,24 +1,16 @@
 [
-  {
-    "realName": "Gowtham S",
-    "nickName": "silentFellow",
-    "dob": "31/03/2004",
-    "hobbies": [
-      "philosophy",
-      "anime",
-      "musics"
-    ],
-    "employeeId": "EMP1776357211312"
-  },
-  {
-    "realName": "Gowtham S",
-    "nickName": "silentFellow",
-    "dob": "31/03/2004",
-    "hobbies": [
-      "philosophy",
-      "anime",
-      "musics"
-    ],
-    "employeeId": "EMP1776357631646"
-  }
+	{
+		"realName": "Gowtham S",
+		"nickName": "silentFellow",
+		"dob": "31/03/2004",
+		"hobbies": ["philosophy", "anime", "musics"],
+		"employeeId": "EMP1776357211312"
+	},
+	{
+		"realName": "Gowtham S",
+		"nickName": "silentFellow",
+		"dob": "31/03/2004",
+		"hobbies": ["philosophy", "anime", "musics"],
+		"employeeId": "EMP1776357631646"
+	}
 ]

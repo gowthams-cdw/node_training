@@ -3,7 +3,7 @@ import { readBuddies, writeBuddies } from "../services/index.js";
 import { AppError } from "../utils/index.js";
 
 // get all buddies
-export const getAllBuddies = async (req, res) => {
+export const getAllBuddies = async (_req, res) => {
 	const buddies = await readBuddies();
 	res.status(200).json(buddies);
 };

@@ -1,8 +1,7 @@
 // imports
 import express from "express";
-import {  asyncHandler } from "../utils/index.js";
-import { DATA_FILE_PATH } from "../constants/index.js";
 import { buddiesController } from "../controllers/index.js";
+import { asyncHandler } from "../utils/index.js";
 
 // create a router
 const router = express.Router();

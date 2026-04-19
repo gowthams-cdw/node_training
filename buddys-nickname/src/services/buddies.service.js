@@ -1,11 +1,11 @@
 // imports
-import fs from "fs";
+import fs from "node:fs";
 import { DATA_FILE_PATH } from "../constants/index.js";
 
 // read buddies file and return the content as JSON
 export const readBuddies = async () => {
 	const data = await fs.promises.readFile(DATA_FILE_PATH, "utf-8");
-  return JSON.parse(data);
+	return JSON.parse(data);
 };
 
 // write to buddies file with the given buddies data
