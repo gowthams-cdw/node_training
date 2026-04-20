@@ -76,3 +76,8 @@ undefined INFO MongoDB connected
 2026-04-19T17:37:49.797Z WARN {"type":"response","requestId":"81ff844b-9893-45f9-b1ec-4bc429a381b9","statusCode":404,"duration":"124ms"}
 2026-04-19T17:37:53.255Z INFO {"type":"request","requestId":"4b7ed788-2074-4c55-9781-0e4b7e5e780c","url":"/buddies/search?name=gowtham%20s","method":"GET","query":{"name":"gowtham s"},"ip":"::1"}
 2026-04-19T17:37:53.369Z INFO {"type":"response","requestId":"4b7ed788-2074-4c55-9781-0e4b7e5e780c","statusCode":200,"duration":"114ms"}
+2026-04-20T05:46:54.251Z INFO "MongoDB connected"
+2026-04-20T05:46:54.257Z INFO "Server started at http://localhost:9999/"
+2026-04-20T05:46:55.519Z INFO {"type":"request","requestId":"cdc9324f-1502-4a27-8c82-840cc750560a","url":"/buddies/EMP1776587528774","method":"PUT","query":{},"body":{"nickName":"silentFellow"},"ip":"::1"}
+2026-04-20T05:46:55.552Z ERROR "Buddy not found"
+2026-04-20T05:46:55.557Z WARN {"type":"response","requestId":"cdc9324f-1502-4a27-8c82-840cc750560a","statusCode":404,"duration":"39ms"}
