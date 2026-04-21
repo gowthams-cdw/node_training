@@ -29,6 +29,10 @@ app.use("/buddies", buddiesRouter);
 // set up middleware to catch errors
 app.use(errorHandler);
 
+/**
+ * @desc function to initialize the server
+ * @desc connects to the database and starts the server
+ */
 const init = async () => {
 	try {
 		// mongodb setup

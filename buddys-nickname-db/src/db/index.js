@@ -1,6 +1,11 @@
 import mongoose from "mongoose";
 import { logger } from "../utils/index.js";
 
+/**
+ * @desc connect to MongoDB database
+ * @returns {Promise} - resolves when connection is successful
+ * @throws {Error} - throws error if connection fails
+ */
 export const connectDB = async () => {
 	const MONGO_URI = process.env.MONGO_URI;
 

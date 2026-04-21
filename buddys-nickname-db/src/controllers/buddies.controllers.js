@@ -1,15 +1,27 @@
 // imports
 import { Buddy } from "../models/index.js";
-import { AppError } from "../utils/index.js";
+import { AppError, asyncHandler } from "../utils/index.js";
 
-// get all buddies
-export const getAllBuddies = async (_req, res) => {
+/**
+ * @desc get all buddies
+ * @route GET /buddies
+ * @param {*} _req - request from the client
+ * @param {*} res - response from the server
+ * @returns {Array} - list of all buddies
+ */
+export const getAllBuddies = asyncHandler(async (_req, res) => {
 	const buddies = await Buddy.find();
 	res.status(200).json(buddies);
-};
+});
 
-// get buddy by id or name
-export const getBuddy = async (req, res) => {
+/**
+ * @desc get buddy by id or name
+ * @route GET /buddies/search
+ * @param {*} req - request from the client
+ * @param {*} res - response from the server
+ * @returns {Object} - buddy object if found
+ */
+export const getBuddy = asyncHandler(async (req, res) => {
 	const { id, name } = req.query;
 
 	let buddy;
@@ -30,10 +42,16 @@ export const getBuddy = async (req, res) => {
 	}
 
 	res.status(200).json(buddy);
-};
+});
 
-// add a new buddy
-export const createNewBuddy = async (req, res) => {
+/**
+ * @desc create a new buddy
+ * @route POST /buddies
+ * @param {*} req - request from the client
+ * @param {*} res - response from the server
+ * @returns {Object} - newly created buddy object
+ */
+export const createNewBuddy = asyncHandler(async (req, res) => {
 	const { realName, nickName, dob, hobbies } = req.body;
 
 	if (!realName || !nickName || !dob || !hobbies || hobbies.length === 0) {
@@ -46,10 +64,16 @@ export const createNewBuddy = async (req, res) => {
 	});
 
 	res.status(201).json(newBuddy);
-};
+});
 
-// update buddy by id
-export const updateBuddy = async (req, res) => {
+/**
+ * @desc update buddy by id
+ * @route PUT /buddies/:id
+ * @param {*} req - request from the client
+ * @param {*} res - response from the server
+ * @returns {Object} - updated buddy object
+ */
+export const updateBuddy = asyncHandler(async (req, res) => {
 	const { id } = req.params;
 
 	const updatedBuddy = await Buddy.findOneAndUpdate(
@@ -62,11 +86,17 @@ export const updateBuddy = async (req, res) => {
 		throw new AppError(404, "Buddy not found");
 	}
 
-	res.json(updatedBuddy);
-};
+	res.status(200).json(updatedBuddy);
+});
 
-// delete buddy by id
-export const deleteBuddy = async (req, res) => {
+/**
+ * @desc delete buddy by id
+ * @route DELETE /buddies/:id
+ * @param {*} req - request from the client
+ * @param {*} res - response from the server
+ * @returns {Object} - confirmation message
+ */
+export const deleteBuddy = asyncHandler(async (req, res) => {
 	const { id } = req.params;
 
 	const deletedBuddy = await Buddy.findOneAndDelete({ employeeId: id });
@@ -75,5 +105,5 @@ export const deleteBuddy = async (req, res) => {
 		throw new AppError(404, "Buddy not found");
 	}
 
-	res.json({ message: "Deleted successfully" });
-};
+	res.status(200).json({ message: "Deleted successfully" });
+});

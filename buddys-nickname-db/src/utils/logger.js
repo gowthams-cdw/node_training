@@ -1,12 +1,15 @@
 import winston from "winston";
 
-// ckeching node env
+// checking node env
 const NODE_ENV = process.env.NODE_ENV || "dev";
 
-// destucture winston
+// destructure winston
 const { createLogger, transports } = winston;
 const { combine, timestamp, printf, errors } = winston.format;
 
+/**
+ * @desc logger configuration using winston for different environments
+ */
 export const logger = createLogger({
 	level: NODE_ENV === "dev" ? "debug" : "info",
 	format: combine(

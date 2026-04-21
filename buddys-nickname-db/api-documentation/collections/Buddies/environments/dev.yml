@@ -1,4 +1,0 @@
-name: dev
-variables:
-  - name: BASE_URL
-    value: http://localhost:9999

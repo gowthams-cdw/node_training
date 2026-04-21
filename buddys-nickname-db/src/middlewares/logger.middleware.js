@@ -3,6 +3,12 @@
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/index.js";
 
+/**
+ * @desc logger middleware
+ * @param {*} req - request from the client
+ * @param {*} res - response from the server
+ * @param {*} next - next middleware function
+ */
 export const requestMiddleware = (req, res, next) => {
 	const start = Date.now();
 	const requestId = uuidv4();
