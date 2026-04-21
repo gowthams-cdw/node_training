@@ -2,13 +2,19 @@
 import fs from "node:fs";
 import { DATA_FILE_PATH } from "../constants/index.js";
 
-// read buddies file and return the content as JSON
-export const readBuddies = async () => {
-	const data = await fs.promises.readFile(DATA_FILE_PATH, "utf-8");
+/**
+ * @desc 	Read buddies data from the json file
+ * @returns {object} content from the json file
+ */
+export const readBuddies = () => {
+	const data = fs.readFile(DATA_FILE_PATH, "utf-8");
 	return JSON.parse(data);
 };
 
-// write to buddies file with the given buddies data
-export const writeBuddies = async (buddies) => {
-	await fs.promises.writeFile(DATA_FILE_PATH, JSON.stringify(buddies, null, 2));
+/**
+ * @desc 	Write buddies data to the json file
+ * @param {object} new buddy data
+ */
+export const writeBuddies = (buddies) => {
+	fs.writeFile(DATA_FILE_PATH, JSON.stringify(buddies, null, 2));
 };
