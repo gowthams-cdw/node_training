@@ -1,0 +1,35 @@
+info:
+  name: update the current logged in user
+  type: http
+  seq: 3
+
+http:
+  method: PUT
+  url: "{{BASE_URL}}/users/update"
+  headers:
+    - name: Authorization
+      value: Bearer {{JWT_TOKEN}}
+  body:
+    type: json
+    data: |-
+      {
+        "password": "silentFellow",
+        "buddies": [
+          {
+            "realName": "silentFellow",
+            "nickName": "silentFellow",
+            "dob": "31/03/2004",
+            "hobbies": ["philosophy"],
+            "employeeId": "123456789"
+          }
+        ]
+      }
+  auth:
+    type: bearer
+    token: Bearer {{JWT_TOKEN}}
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

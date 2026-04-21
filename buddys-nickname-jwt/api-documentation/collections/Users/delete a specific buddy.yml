@@ -1,0 +1,22 @@
+info:
+  name: delete a specific buddy
+  type: http
+  seq: 6
+
+http:
+  method: DELETE
+  url: "{{BASE_URL}}/users/buddies/delete/:removeBuddyId"
+  headers:
+    - name: Authorization
+      value: Bearer {{JWT_TOKEN}}
+  params:
+    - name: removeBuddyId
+      value: "123456789"
+      type: path
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5

@@ -1,0 +1,29 @@
+info:
+  name: insert a specific buddy
+  type: http
+  seq: 7
+
+http:
+  method: POST
+  url: "{{BASE_URL}}/users/buddies/insert"
+  headers:
+    - name: Authorization
+      value: Bearer {{JWT_TOKEN}}
+  body:
+    type: json
+    data: |-
+      {
+        "realName": "arsha",
+        "nickName": "arsha",
+        "dob": "21/03/2004",
+        "hobbies": [
+          "sighting girls"
+        ]
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
