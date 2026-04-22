@@ -1,6 +1,0 @@
-name: dev
-variables:
-  - name: BASE_URL
-    value: http://localhost:9999
-  - secret: true
-    name: JWT_TOKEN

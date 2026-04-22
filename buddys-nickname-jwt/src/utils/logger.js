@@ -7,6 +7,9 @@ const { combine, printf, timestamp, errors } = winston.format;
 // get runtime from env
 const NODE_ENV = process.env.NODE_ENV || "dev";
 
+/**
+ * @desc logger instance using winston, with different log levels for dev and prod, and logs to console and files
+ */
 export const logger = createLogger({
 	level: NODE_ENV === "dev" ? "debug" : "info",
 	format: combine(

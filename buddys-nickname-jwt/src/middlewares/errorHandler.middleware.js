@@ -1,5 +1,12 @@
 import { logger } from "../utils/logger.js";
 
+/**
+ * @desc error handling middleware to catch all errors thrown in the app and send a proper response to the client
+ * @param {*} err - thrown error object
+ * @param {*} req - request from the client
+ * @param {*} res - response from the server
+ * @param {*} _next - next middleware function
+ */
 export const errorHandlerMiddleware = (err, req, res, _next) => {
 	const requestId = req.requestId;
 	const {

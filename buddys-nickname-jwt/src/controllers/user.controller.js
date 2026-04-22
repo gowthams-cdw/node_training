@@ -1,47 +1,64 @@
 // imports
 import * as bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
-import { v4 as uuidv4 } from "uuid";
-import { User } from "../models/users.model.js";
+import {
+	createUser,
+	deleteUser,
+	getUser,
+	updateUser,
+} from "../services/user.service.js";
 import { AppError } from "../utils/appError.js";
+import { asyncHandler } from "../utils/asyncHandler.js";
+import { addToken, removeToken } from "../utils/tokenStore.js";
 
-// create a new user
-export const createUser = async (req, res) => {
-	const BCRYPT_HASH = process.env.BCRYPT_HASH || "node_training_salt";
-
-	const { username, password, buddies = [] } = req.body;
+/**
+ * @desc create a new user
+ * @route POST /users
+ * @param {User} user object
+ * @returns {Promise<User>} created user object
+ */
+export const createUserHandler = asyncHandler(async (req, res) => {
+	const {
+		username,
+		password,
+		realName,
+		nickName,
+		dob,
+		hobbies = [],
+		buddies = [],
+	} = req.body;
 
 	if (!username || !password) {
 		throw new AppError(400, "Invalid request body.");
 	}
 
-	const existingUser = await User.findOne({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
+	const existingUser = await getUser(username);
 
 	if (existingUser) {
-		throw new AppError(401, "User already exists.");
+		throw new AppError(409, "User already exists."); // 409 - conflicts
 	}
 
-	const hashedPassword = await bcrypt.hash(password, BCRYPT_HASH);
-
-	const user = await User.create({
+	const user = await createUser({
 		username,
-		password: hashedPassword,
-
-		// assign employeeId to the buddies
-		buddies:
-			buddies.length !== 0
-				? buddies.map((b) => ({ ...b, employeeId: uuidv4() }))
-				: buddies,
+		password,
+		realName,
+		nickName,
+		dob,
+		hobbies,
+		buddies,
 	});
 
 	res.status(201).json(user);
-};
+});
 
-// login into a specific user
-export const loginUser = async (req, res) => {
-	const JWT_HASH = process.env.JWT_HASH || "node_training_salt";
+/**
+ * @desc login into a specific user
+ * @route POST /users/login
+ * @param {User} user object
+ * @returns {Promise<User>} logged in user object
+ */
+export const loginUserHandler = asyncHandler(async (req, res) => {
+	const JWT_HASH = process.env.JWT_HASH || "$2b$10$8StE1gmrFPlzMp.zVlOw2.";
 
 	const { username, password } = req.body;
 
@@ -49,211 +66,181 @@ export const loginUser = async (req, res) => {
 		throw new AppError(400, "Invalid request body.");
 	}
 
-	const existingUser = await User.findOne({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
+	const existingUser = await getUser(username, true);
 
 	if (!existingUser) {
-		throw new AppError(203, "User not found.");
+		throw new AppError(404, "User not found.");
 	}
 
 	const isValidPassword = await bcrypt.compare(password, existingUser.password);
 	if (!isValidPassword) {
-		throw new AppError(203, "Invalid credentials.");
+		throw new AppError(401, "Invalid credentials.");
 	}
 
+	const token = jwt.sign({ username }, JWT_HASH, { expiresIn: "1d" });
+	addToken(token);
 	res.status(200).send({
-		accessToken: jwt.sign({ username }, JWT_HASH, { expiresIn: "1d" }),
+		accessToken: token,
 	});
-};
+});
 
-// update the current user
-export const updateUser = async (req, res) => {
-	const BCRYPT_HASH = process.env.BCRYPT_HASH || "node_training_salt";
-
+/**
+ * @desc get the current user details
+ * @route GET /users
+ * @returns {Promise<User>} fetched user object
+ */
+export const getUserHandler = asyncHandler(async (req, res) => {
 	const username = req.username;
-	const { password, buddies } = req.body;
 
-	if (!password && (!buddies || buddies.length === 0)) {
-		throw new AppError(400, "Invalid body to update user.");
+	const user = await getUser(username);
+
+	if (!user) {
+		throw new AppError(404, "User not found");
 	}
 
-	const existingUser = await User.findOne({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
+	res.status(200).send(user);
+});
+
+/**
+ * @desc update the current user details
+ * @route PUT /users
+ * @param {User} user object
+ * @returns {Promise<User>} updated user object
+ */
+export const updateUserHandler = asyncHandler(async (req, res) => {
+	const username = req.username;
+	const existingUser = await getUser(username);
 
 	if (!existingUser) {
-		throw new AppError(203, "User not found.");
+		throw new AppError(404, "User not found.");
 	}
 
-	const newData = {};
-	if (password) {
-		const hashedPassword = await bcrypt.hash(password, BCRYPT_HASH);
-		newData.password = hashedPassword;
-	}
-	if (buddies) {
-		const buddiesWithEmployeeId = buddies.map((b) => ({
-			...b,
-			employeeId: uuidv4(),
-		}));
-		newData.buddies = buddiesWithEmployeeId;
-	}
-
-	const updatedUser = await User.findOneAndUpdate(
-		{
-			username: { $regex: `^${username}$`, $options: "i" },
-		},
-		newData,
-		{ new: true },
-	);
+	const updatedUser = await updateUser(existingUser, req.body);
 
 	res.status(201).send(updatedUser);
-};
+});
 
-// delete the current user
-export const deleteUser = async (req, res) => {
+/**
+ * @desc delete the current user
+ * @route DELETE /users
+ * @returns {Promise<{message: string}>} success message
+ */
+export const deleteUserHandler = asyncHandler(async (req, res) => {
 	const username = req.username;
+	const token = req.token;
 
-	const existingUser = await User.findOne({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
+	const existingUser = await getUser(username);
 
 	if (!existingUser) {
-		throw new AppError(203, "User not found.");
+		throw new AppError(404, "User not found.");
 	}
 
-	await User.findOneAndDelete({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
+	await deleteUser(existingUser, token);
 
-	res.status(201).send({ message: "user deleted successfully." });
-};
+	res.status(200).send({ message: "user deleted successfully." });
+});
 
-// get all buddies of the current user
-export const getAllBuddies = async (req, res) => {
+/**
+ * @desc get all buddies of the current user
+ * @route GET /users/buddies
+ * @returns {Promise<Array>} list of buddies of the current user
+ */
+export const getAllBuddiesHandler = asyncHandler(async (req, res) => {
 	const username = req.username;
 
-	const existingUser = await User.findOne({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
-
-	if (!existingUser) {
-		throw new Error(203, "user not found");
+	const user = await getUser(username);
+	if (!user) {
+		throw new AppError(404, "User not found");
 	}
 
-	return res.status(200).json(existingUser.buddies);
-};
+	res.status(200).send(user.buddies);
+});
 
-// get a specific buddy from the current user
-export const getBuddy = async (req, res) => {
+/**
+ * @desc get a specific buddy of the current user
+ * @route GET /users/buddies/:buddyUsername
+ * @param {string} buddyUsername - username of the buddy to be fetched
+ * @returns {Promise<Object>} buddy object
+ */
+export const getBuddyHandler = asyncHandler(async (req, res) => {
 	const username = req.username;
-	const { buddyId } = req.params;
+	const { buddyUsername } = req.params;
 
-	const existingUser = await User.findOne({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
-
-	if (!existingUser) {
-		throw new Error(203, "user not found");
+	const user = await getUser(username);
+	if (!user) {
+		throw new AppError(404, "User not found");
 	}
 
-	const buddy = existingUser.buddies.find((b) => b.employeeId === buddyId);
+	const buddy = user.buddies.find((buddy) => buddy.username === buddyUsername);
 
 	if (!buddy) {
-		throw new Error(203, "buddy not found");
+		throw new AppError(404, "Buddy not found");
 	}
 
-	return res.status(200).json(buddy);
-};
+	res.status(200).send(buddy);
+});
 
-// remove a specific buddy from the current user
-export const deleteBuddy = async (req, res) => {
+/**
+ * @desc add new buddy to the current user
+ * @route POST /users/buddies/:buddyUsername
+ * @param {string} buddyUsername - username of the buddy to be added
+ * @returns {Promise<Object>} updated user object with the new buddy added
+ */
+export const addBuddyHandler = asyncHandler(async (req, res) => {
 	const username = req.username;
-	const { removeBuddyId } = req.params;
+	const { buddyUsername } = req.params;
 
-	const existingUser = await User.findOne({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
-
-	if (!existingUser) {
-		throw new Error(203, "user not found");
+	// cannot be buddy to themselves
+	if (buddyUsername === username) {
+		throw new AppError(400, "Cannot add yourself as buddy");
 	}
 
-	const buddies = existingUser.buddies;
-	const newBuddies = buddies.filter((b) => b.employeeId !== removeBuddyId);
+	const existingUser = await getUser(username);
+	if (!existingUser) {
+		throw new AppError(404, "User not found");
+	}
 
-	const updatedUser = await User.findOneAndUpdate(
-		{
-			username: { $regex: `^${username}$`, $options: "i" },
-		},
-		{ buddies: newBuddies },
-		{ new: true },
-	);
+	const buddies = existingUser.buddies
+		.map((buddy) => buddy.username)
+		.concat(buddyUsername);
+	const updatedUser = await updateUser(existingUser, { buddies });
 
-	res.status(201).send(updatedUser);
-};
+	res.status(200).send(updatedUser);
+});
 
-// insert a specific buddy from the current user
-export const insertBuddy = async (req, res) => {
+/**
+ * @desc remove a buddy from the current user
+ * @route DELETE /users/buddies/:buddyUsername
+ * @param {string} buddyUsername - username of the buddy to be removed
+ * @returns {Promise<Object>} updated user object with the buddy removed
+ */
+export const removeBuddyHandler = asyncHandler(async (req, res) => {
 	const username = req.username;
+	const { buddyUsername } = req.params;
 
-	const existingUser = await User.findOne({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
-
+	const existingUser = await getUser(username);
 	if (!existingUser) {
-		throw new Error(203, "user not found");
+		throw new AppError(404, "User not found");
 	}
 
-	const buddies = existingUser.buddies;
-	const newBuddy = { ...req.body, employeeId: uuidv4() };
-	buddies.push(newBuddy);
+	const buddies = existingUser.buddies
+		.map((buddy) => buddy.username)
+		.filter(
+			(currentUsername) => currentUsername !== buddyUsername.toLowerCase(),
+		);
+	const updatedUser = await updateUser(existingUser, { buddies });
 
-	const updatedUser = await User.findOneAndUpdate(
-		{
-			username: { $regex: `^${username}$`, $options: "i" },
-		},
-		{ buddies },
-		{ new: true },
-	);
+	res.status(200).send(updatedUser);
+});
 
-	res.status(201).send(updatedUser);
-};
+/**
+ * @desc logout the current user by removing the token from the token store
+ * @route POST /users/logout
+ * @returns {Promise<{message: string}>} success message
+ */
+export const logout = asyncHandler(async (req, res) => {
+	const token = req.token;
+	removeToken(token);
 
-// update a specific buddy from the current user
-export const updateBuddy = async (req, res) => {
-	const username = req.username;
-	const { updateBuddyId } = req.params;
-
-	const existingUser = await User.findOne({
-		username: { $regex: `^${username}$`, $options: "i" },
-	});
-	if (!existingUser) {
-		throw new AppError(203, "user not found");
-	}
-
-	const buddies = existingUser.buddies;
-	const existingBuddy = buddies.find((b) => b.employeeId === updateBuddyId);
-
-	if (!existingBuddy) {
-		throw new AppError(203, "buddy not found");
-	}
-
-	// avoid overwrite of employeeId
-	if (req.body.employeeId) {
-		delete req.body.employeeId;
-	}
-
-	// Remove the old buddy and add the updated one
-	const newBuddies = buddies
-		.filter((b) => b.employeeId !== updateBuddyId)
-		.concat({ ...existingBuddy.toObject(), ...req.body });
-
-	const updatedUser = await User.findOneAndUpdate(
-		{ username: { $regex: `^${username}$`, $options: "i" } },
-		{ buddies: newBuddies },
-		{ new: true },
-	);
-
-	res.status(200).json(updatedUser);
-};
+	res.status(200).send({ message: "user logged out successfully" });
+});

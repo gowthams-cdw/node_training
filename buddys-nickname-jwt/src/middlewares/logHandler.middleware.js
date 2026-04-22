@@ -1,6 +1,12 @@
 import { v4 as uuidv4 } from "uuid";
 import { logger } from "../utils/logger.js";
 
+/**
+ * @desc logging middleware to log all incoming requests and outgoing responses
+ * @param {*} req - request from the client
+ * @param {*} res - response from the server
+ * @param {*} next - next middleware function
+ */
 export const logHandlerMiddleware = (req, res, next) => {
 	// get the start time
 	const start = Date.now();

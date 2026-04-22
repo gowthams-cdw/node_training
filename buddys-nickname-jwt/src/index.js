@@ -4,8 +4,8 @@ import cors from "cors";
 import * as dotenv from "dotenv";
 import express from "express";
 import { connectDB } from "./db/index.js";
-import { errorHandlerMiddleware } from "./middlwares/errorHandler.middleware.js";
-import { logHandlerMiddleware } from "./middlwares/logHandler.middleware.js";
+import { errorHandlerMiddleware } from "./middlewares/errorHandler.middleware.js";
+import { logHandlerMiddleware } from "./middlewares/logHandler.middleware.js";
 import { logger } from "./utils/logger.js";
 import { userRouter } from "./routes/user.route.js";
 
