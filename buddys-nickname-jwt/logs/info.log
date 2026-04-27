@@ -1,0 +1,35 @@
+2026-04-27T13:36:08.500Z INFO "MongoDB connected successfully!"
+2026-04-27T13:36:08.506Z INFO "App started at http://localhost:9999"
+2026-04-27T13:36:42.315Z INFO {"type":"request","requestId":"5328f729-f6e2-4542-8d91-ac1d45096512","method":"POST","url":"/users/","body":{"username":"silentFellow","password":"silentFellow","realName":"Gowtham S","nickName":"silentFellow","dob":"31/03/2004"},"query":{},"ip":"::1"}
+2026-04-27T13:36:42.364Z ERROR "User already exists."
+2026-04-27T13:36:42.367Z DEBUG {"type":"response","requestId":"5328f729-f6e2-4542-8d91-ac1d45096512","statusCode":409,"duration":"53s"}
+2026-04-27T13:36:59.537Z INFO {"type":"request","requestId":"b6b8516c-04c9-461e-a7b0-3560c225c58b","method":"POST","url":"/users/login","body":{"username":"silentFellow","password":"silentFellow"},"query":{},"ip":"::1"}
+2026-04-27T13:36:59.655Z INFO {"type":"response","requestId":"b6b8516c-04c9-461e-a7b0-3560c225c58b","statusCode":200,"duration":"118s"}
+2026-04-27T13:37:20.910Z INFO {"type":"request","requestId":"ca3ffcb9-61bb-4877-a402-dfad2466b3c6","method":"DELETE","url":"/users","query":{},"ip":"::1"}
+2026-04-27T13:37:20.974Z INFO {"type":"response","requestId":"ca3ffcb9-61bb-4877-a402-dfad2466b3c6","statusCode":200,"duration":"64s"}
+2026-04-27T13:37:24.216Z INFO {"type":"request","requestId":"d63cc2d2-0679-4b2d-a4e6-7628795fa135","method":"POST","url":"/users/","body":{"username":"silentFellow","password":"silentFellow","realName":"Gowtham S","nickName":"silentFellow","dob":"31/03/2004"},"query":{},"ip":"::1"}
+2026-04-27T13:37:24.370Z INFO {"type":"response","requestId":"d63cc2d2-0679-4b2d-a4e6-7628795fa135","statusCode":201,"duration":"154s"}
+2026-04-27T13:37:29.066Z INFO {"type":"request","requestId":"e607a458-d334-4a4c-920c-62ab533cd948","method":"GET","url":"/users","query":{},"ip":"::1"}
+2026-04-27T13:37:29.066Z ERROR "Invalid token"
+2026-04-27T13:37:29.067Z DEBUG {"type":"response","requestId":"e607a458-d334-4a4c-920c-62ab533cd948","statusCode":403,"duration":"1s"}
+2026-04-27T13:37:33.444Z INFO {"type":"request","requestId":"4b9b8e50-9ea5-4f98-b3f5-1f5c7bef5c93","method":"POST","url":"/users/login","body":{"username":"silentFellow","password":"silentFellow"},"query":{},"ip":"::1"}
+2026-04-27T13:37:33.560Z INFO {"type":"response","requestId":"4b9b8e50-9ea5-4f98-b3f5-1f5c7bef5c93","statusCode":200,"duration":"116s"}
+2026-04-27T13:37:59.178Z INFO {"type":"request","requestId":"b8257414-9906-49a3-beb3-c8ecec6f951a","method":"GET","url":"/users","query":{},"ip":"::1"}
+2026-04-27T13:37:59.209Z INFO {"type":"response","requestId":"b8257414-9906-49a3-beb3-c8ecec6f951a","statusCode":200,"duration":"32s"}
+2026-04-27T13:38:02.922Z INFO {"type":"request","requestId":"6410bd75-edd3-4128-8c7d-f56c8ddeb5ea","method":"PUT","url":"/users","body":{"hobbies":["philosophy","coding","reading","anime","music"],"buddies":["arsa"]},"query":{},"ip":"::1"}
+2026-04-27T13:38:03.007Z INFO {"type":"response","requestId":"6410bd75-edd3-4128-8c7d-f56c8ddeb5ea","statusCode":201,"duration":"85s"}
+2026-04-27T13:38:15.637Z INFO {"type":"request","requestId":"ef29978f-4840-4a9b-bb29-a1d29dcc9db5","method":"GET","url":"/users/buddies","query":{},"ip":"::1"}
+2026-04-27T13:38:15.699Z INFO {"type":"response","requestId":"ef29978f-4840-4a9b-bb29-a1d29dcc9db5","statusCode":200,"duration":"62s"}
+2026-04-27T13:38:19.571Z INFO {"type":"request","requestId":"23f43fde-ebac-440b-ade8-056701e8d340","method":"GET","url":"/users/buddies/arsa","query":{},"ip":"::1"}
+2026-04-27T13:38:19.632Z INFO {"type":"response","requestId":"23f43fde-ebac-440b-ade8-056701e8d340","statusCode":200,"duration":"61s"}
+2026-04-27T13:38:24.542Z INFO {"type":"request","requestId":"34914fda-3540-4b3e-9fed-823d6cc4fab6","method":"POST","url":"/users/buddies/neoSilentFellow","query":{},"ip":"::1"}
+2026-04-27T13:38:24.895Z INFO {"type":"response","requestId":"34914fda-3540-4b3e-9fed-823d6cc4fab6","statusCode":200,"duration":"353s"}
+2026-04-27T13:38:27.739Z INFO {"type":"request","requestId":"3663b9c3-db22-4df1-8688-85137e06d7a3","method":"DELETE","url":"/users/buddies/neoSilentFellow","query":{},"ip":"::1"}
+2026-04-27T13:38:27.857Z INFO {"type":"response","requestId":"3663b9c3-db22-4df1-8688-85137e06d7a3","statusCode":200,"duration":"118s"}
+2026-04-27T13:38:30.588Z INFO {"type":"request","requestId":"15d71a0e-2a7a-4187-add1-a7cf23e7c198","method":"POST","url":"/users/logout","query":{},"ip":"::1"}
+2026-04-27T13:38:30.590Z INFO {"type":"response","requestId":"15d71a0e-2a7a-4187-add1-a7cf23e7c198","statusCode":200,"duration":"2s"}
+2026-04-27T13:38:36.506Z INFO {"type":"request","requestId":"c5bef545-f3de-466e-9a46-34e68487f918","method":"GET","url":"/users","query":{},"ip":"::1"}
+2026-04-27T13:38:36.507Z ERROR "Invalid token"
+2026-04-27T13:38:36.508Z DEBUG {"type":"response","requestId":"c5bef545-f3de-466e-9a46-34e68487f918","statusCode":403,"duration":"2s"}
+2026-04-27T13:38:42.069Z INFO {"type":"request","requestId":"70488207-238a-4b5d-9052-06a53ab21d1e","method":"POST","url":"/users/login","body":{"username":"silentFellow","password":"silentFellow"},"query":{},"ip":"::1"}
+2026-04-27T13:38:42.209Z INFO {"type":"response","requestId":"70488207-238a-4b5d-9052-06a53ab21d1e","statusCode":200,"duration":"140s"}
