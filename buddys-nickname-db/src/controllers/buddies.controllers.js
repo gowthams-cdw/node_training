@@ -1,5 +1,11 @@
 // imports
-import { Buddy } from "../models/index.js";
+import {
+	createBuddy,
+	deleteBuddy,
+	getAllBuddies,
+	getBuddy,
+	updateBuddy,
+} from "../services/buddies.services.js";
 import { AppError, asyncHandler } from "../utils/index.js";
 
 /**
@@ -9,8 +15,8 @@ import { AppError, asyncHandler } from "../utils/index.js";
  * @param {*} res - response from the server
  * @returns {Array} - list of all buddies
  */
-export const getAllBuddies = asyncHandler(async (_req, res) => {
-	const buddies = await Buddy.find();
+export const getAllBuddiesHandler = asyncHandler(async (_req, res) => {
+	const buddies = await getAllBuddies();
 	res.status(200).json(buddies);
 });
 
@@ -21,21 +27,14 @@ export const getAllBuddies = asyncHandler(async (_req, res) => {
  * @param {*} res - response from the server
  * @returns {Object} - buddy object if found
  */
-export const getBuddy = asyncHandler(async (req, res) => {
+export const getBuddyHandler = asyncHandler(async (req, res) => {
 	const { id, name } = req.query;
 
-	let buddy;
-	if (id) {
-		buddy = await Buddy.find({
-			employeeId: { $regex: `^${id}$`, $options: "i" },
-		});
-	} else if (name) {
-		buddy = await Buddy.find({
-			realName: { $regex: `^${name}$`, $options: "i" },
-		});
-	} else {
+	if (!id && !name) {
 		throw new AppError(400, "Provide either id or name to search");
 	}
+
+	const buddy = await getBuddy(id ? id : name, id ? "id" : "name"); // identifier + identifierType
 
 	if (!buddy || buddy.length === 0) {
 		throw new AppError(404, "Buddy not found");
@@ -51,18 +50,14 @@ export const getBuddy = asyncHandler(async (req, res) => {
  * @param {*} res - response from the server
  * @returns {Object} - newly created buddy object
  */
-export const createNewBuddy = asyncHandler(async (req, res) => {
+export const createBuddyHandler = asyncHandler(async (req, res) => {
 	const { realName, nickName, dob, hobbies } = req.body;
 
 	if (!realName || !nickName || !dob || !hobbies || hobbies.length === 0) {
 		throw new AppError(400, "All fields are required");
 	}
 
-	const newBuddy = await Buddy.create({
-		...req.body,
-		employeeId: `EMP${Date.now()}`,
-	});
-
+	const newBuddy = await createBuddy({ realName, nickName, dob, hobbies });
 	res.status(201).json(newBuddy);
 });
 
@@ -73,14 +68,10 @@ export const createNewBuddy = asyncHandler(async (req, res) => {
  * @param {*} res - response from the server
  * @returns {Object} - updated buddy object
  */
-export const updateBuddy = asyncHandler(async (req, res) => {
+export const updateBuddyHandler = asyncHandler(async (req, res) => {
 	const { id } = req.params;
 
-	const updatedBuddy = await Buddy.findOneAndUpdate(
-		{ employeeId: id },
-		req.body,
-		{ new: true },
-	);
+	const updatedBuddy = await updateBuddy(id, req.body);
 
 	if (!updatedBuddy) {
 		throw new AppError(404, "Buddy not found");
@@ -96,10 +87,10 @@ export const updateBuddy = asyncHandler(async (req, res) => {
  * @param {*} res - response from the server
  * @returns {Object} - confirmation message
  */
-export const deleteBuddy = asyncHandler(async (req, res) => {
+export const deleteBuddyHandler = asyncHandler(async (req, res) => {
 	const { id } = req.params;
 
-	const deletedBuddy = await Buddy.findOneAndDelete({ employeeId: id });
+	const deletedBuddy = await deleteBuddy(id);
 
 	if (!deletedBuddy) {
 		throw new AppError(404, "Buddy not found");

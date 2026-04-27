@@ -1,0 +1,26 @@
+2026-04-27T13:25:20.504Z INFO "MongoDB connected"
+2026-04-27T13:25:20.511Z INFO "Server started at http://localhost:9999/"
+2026-04-27T13:25:59.721Z INFO {"type":"request","requestId":"86ee6b20-bea3-4f7a-b4a8-bef32b2ddbfa","url":"/buddies","method":"GET","query":{},"ip":"::1"}
+2026-04-27T13:25:59.780Z INFO {"type":"response","requestId":"86ee6b20-bea3-4f7a-b4a8-bef32b2ddbfa","statusCode":200,"duration":"60ms"}
+2026-04-27T13:26:03.184Z INFO {"type":"request","requestId":"ec2b9a0a-f06e-4099-ad25-f55feb30b198","url":"/buddies/search?id=neo","method":"GET","query":{"id":"neo"},"ip":"::1"}
+2026-04-27T13:26:03.214Z ERROR "Buddy not found"
+2026-04-27T13:26:03.216Z WARN {"type":"response","requestId":"ec2b9a0a-f06e-4099-ad25-f55feb30b198","statusCode":404,"duration":"32ms"}
+2026-04-27T13:26:11.013Z INFO {"type":"request","requestId":"14f35257-5c6f-40f6-8750-d2536499f2d3","url":"/buddies/search?id=silentFellow","method":"GET","query":{"id":"silentFellow"},"ip":"::1"}
+2026-04-27T13:26:11.047Z ERROR "Buddy not found"
+2026-04-27T13:26:11.049Z WARN {"type":"response","requestId":"14f35257-5c6f-40f6-8750-d2536499f2d3","statusCode":404,"duration":"36ms"}
+2026-04-27T13:26:32.797Z INFO {"type":"request","requestId":"f5bf6088-8e84-4456-8b73-f1af2aad6af1","url":"/buddies/search?id=MP1776767839153","method":"GET","query":{"id":"MP1776767839153"},"ip":"::1"}
+2026-04-27T13:26:32.830Z ERROR "Buddy not found"
+2026-04-27T13:26:32.832Z WARN {"type":"response","requestId":"f5bf6088-8e84-4456-8b73-f1af2aad6af1","statusCode":404,"duration":"35ms"}
+2026-04-27T13:26:33.997Z INFO {"type":"request","requestId":"4ffe1e16-af78-44a3-b113-ec1207eee9cc","url":"/buddies/search?id=MP1776767839153","method":"GET","query":{"id":"MP1776767839153"},"ip":"::1"}
+2026-04-27T13:26:34.027Z ERROR "Buddy not found"
+2026-04-27T13:26:34.028Z WARN {"type":"response","requestId":"4ffe1e16-af78-44a3-b113-ec1207eee9cc","statusCode":404,"duration":"31ms"}
+2026-04-27T13:26:37.648Z INFO {"type":"request","requestId":"f6b86735-da7b-4750-be52-62c0165ae7a9","url":"/buddies/search?id=EMP1776767839153","method":"GET","query":{"id":"EMP1776767839153"},"ip":"::1"}
+2026-04-27T13:26:37.679Z INFO {"type":"response","requestId":"f6b86735-da7b-4750-be52-62c0165ae7a9","statusCode":200,"duration":"31ms"}
+2026-04-27T13:26:41.464Z INFO {"type":"request","requestId":"3ddebbef-6e1c-4e9c-8227-ecdd0ebb4d2f","url":"/buddies/search?name=gowtham%20s","method":"GET","query":{"name":"gowtham s"},"ip":"::1"}
+2026-04-27T13:26:41.507Z INFO {"type":"response","requestId":"3ddebbef-6e1c-4e9c-8227-ecdd0ebb4d2f","statusCode":200,"duration":"44ms"}
+2026-04-27T13:26:45.107Z INFO {"type":"request","requestId":"225636a4-a3a2-426d-837a-0f5954d9c627","url":"/buddies","method":"POST","query":{},"body":{"realName":"Gowtham S","nickName":"silentFellow","dob":"31/03/2004","hobbies":["philosophy","anime","musics"]},"ip":"::1"}
+2026-04-27T13:26:45.157Z INFO {"type":"response","requestId":"225636a4-a3a2-426d-837a-0f5954d9c627","statusCode":201,"duration":"50ms"}
+2026-04-27T13:26:53.908Z INFO {"type":"request","requestId":"a0a2df30-a711-4a59-b6af-708f28d02415","url":"/buddies/EMP1776767839153","method":"PUT","query":{},"body":{"nickName":"silentFellow"},"ip":"::1"}
+2026-04-27T13:26:53.950Z INFO {"type":"response","requestId":"a0a2df30-a711-4a59-b6af-708f28d02415","statusCode":200,"duration":"42ms"}
+2026-04-27T13:26:59.774Z INFO {"type":"request","requestId":"a82fc980-d617-4b2b-b690-4491b62891df","url":"/buddies/EMP1776767839153","method":"DELETE","query":{},"ip":"::1"}
+2026-04-27T13:26:59.807Z INFO {"type":"response","requestId":"a82fc980-d617-4b2b-b690-4491b62891df","statusCode":200,"duration":"32ms"}
