@@ -7,6 +7,8 @@ export class AppError extends Error {
 
 		this.status = "failure";
 		this.statusCode = statusCode;
-		this.message = message;
+		this.message = statusCode.toString().startsWith("5")
+			? "Something went wrong"
+			: message;
 	}
 }

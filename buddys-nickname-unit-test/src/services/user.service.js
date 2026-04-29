@@ -53,8 +53,11 @@ export const createUser = async ({
 
 	if (username) processedUserDetails.username = username.toLowerCase();
 	if (password) {
-		const BCRYPT_HASH =
-			process.env.BCRYPT_HASH || "$2b$10$ElnNoTh5HZH8kFkNoVzk2e";
+		const BCRYPT_HASH = process.env.BCRYPT_HASH;
+
+		if (!BCRYPT_HASH) {
+			throw new AppError(500, "BCRYPT_HASH not configured in the server");
+		}
 
 		processedUserDetails.password = await bcrypt.hash(password, BCRYPT_HASH);
 	}
@@ -107,8 +110,11 @@ export const updateUser = async (
 	const processedUserDetails = {};
 
 	if (password) {
-		const BCRYPT_HASH =
-			process.env.BCRYPT_HASH || "$2b$10$ElnNoTh5HZH8kFkNoVzk2e";
+		const BCRYPT_HASH = process.env.BCRYPT_HASH;
+
+		if (!BCRYPT_HASH) {
+			throw new AppError(500, "BCRYPT_HASH not configured in the server");
+		}
 
 		processedUserDetails.password = await bcrypt.hash(password, BCRYPT_HASH);
 	}
