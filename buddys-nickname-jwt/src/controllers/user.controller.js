@@ -17,7 +17,7 @@ import { addToken, removeToken } from "../utils/tokenStore.js";
  * @param {User} user object
  * @returns {Promise<User>} created user object
  */
-export const createUserHandler = asyncHandler(async (req, res) => {
+export const createNewUser = asyncHandler(async (req, res) => {
 	const {
 		username,
 		password,
@@ -57,8 +57,12 @@ export const createUserHandler = asyncHandler(async (req, res) => {
  * @param {User} user object
  * @returns {Promise<User>} logged in user object
  */
-export const loginUserHandler = asyncHandler(async (req, res) => {
-	const JWT_HASH = process.env.JWT_HASH || "$2b$10$8StE1gmrFPlzMp.zVlOw2.";
+export const loginUser = asyncHandler(async (req, res) => {
+	const JWT_HASH = process.env.JWT_HASH;
+
+	if (!JWT_HASH) {
+		throw new AppError(500, "JWT_HASH not configured in the server");
+	}
 
 	const { username, password } = req.body;
 
@@ -89,7 +93,7 @@ export const loginUserHandler = asyncHandler(async (req, res) => {
  * @route GET /users
  * @returns {Promise<User>} fetched user object
  */
-export const getUserHandler = asyncHandler(async (req, res) => {
+export const getUserByUserName = asyncHandler(async (req, res) => {
 	const username = req.username;
 
 	const user = await getUser(username);
@@ -107,7 +111,7 @@ export const getUserHandler = asyncHandler(async (req, res) => {
  * @param {User} user object
  * @returns {Promise<User>} updated user object
  */
-export const updateUserHandler = asyncHandler(async (req, res) => {
+export const updateUserByUserName = asyncHandler(async (req, res) => {
 	const username = req.username;
 	const existingUser = await getUser(username);
 
@@ -125,7 +129,7 @@ export const updateUserHandler = asyncHandler(async (req, res) => {
  * @route DELETE /users
  * @returns {Promise<{message: string}>} success message
  */
-export const deleteUserHandler = asyncHandler(async (req, res) => {
+export const deleteUserByUserName = asyncHandler(async (req, res) => {
 	const username = req.username;
 	const token = req.token;
 
@@ -145,7 +149,7 @@ export const deleteUserHandler = asyncHandler(async (req, res) => {
  * @route GET /users/buddies
  * @returns {Promise<Array>} list of buddies of the current user
  */
-export const getAllBuddiesHandler = asyncHandler(async (req, res) => {
+export const getBuddies = asyncHandler(async (req, res) => {
 	const username = req.username;
 
 	const user = await getUser(username);
@@ -162,7 +166,7 @@ export const getAllBuddiesHandler = asyncHandler(async (req, res) => {
  * @param {string} buddyUsername - username of the buddy to be fetched
  * @returns {Promise<Object>} buddy object
  */
-export const getBuddyHandler = asyncHandler(async (req, res) => {
+export const getBuddy = asyncHandler(async (req, res) => {
 	const username = req.username;
 	const { buddyUsername } = req.params;
 
@@ -186,7 +190,7 @@ export const getBuddyHandler = asyncHandler(async (req, res) => {
  * @param {string} buddyUsername - username of the buddy to be added
  * @returns {Promise<Object>} updated user object with the new buddy added
  */
-export const addBuddyHandler = asyncHandler(async (req, res) => {
+export const addBuddy = asyncHandler(async (req, res) => {
 	const username = req.username;
 	const { buddyUsername } = req.params;
 
@@ -214,7 +218,7 @@ export const addBuddyHandler = asyncHandler(async (req, res) => {
  * @param {string} buddyUsername - username of the buddy to be removed
  * @returns {Promise<Object>} updated user object with the buddy removed
  */
-export const removeBuddyHandler = asyncHandler(async (req, res) => {
+export const removeBuddy = asyncHandler(async (req, res) => {
 	const username = req.username;
 	const { buddyUsername } = req.params;
 

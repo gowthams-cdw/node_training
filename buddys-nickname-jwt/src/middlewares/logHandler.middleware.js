@@ -7,7 +7,7 @@ import { logger } from "../utils/logger.js";
  * @param {*} res - response from the server
  * @param {*} next - next middleware function
  */
-export const logHandlerMiddleware = (req, res, next) => {
+export const logRequestAndResponse = (req, res, next) => {
 	// get the start time
 	const start = Date.now();
 

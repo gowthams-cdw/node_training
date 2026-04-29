@@ -9,10 +9,14 @@ import { isValidToken } from "../utils/tokenStore.js";
  * @param {*} _res - response from the server
  * @param {*} next - next middleware function
  */
-export const JWTHandlerMiddleware = async (req, _res, next) => {
-	const JWT_HASH = process.env.JWT_HASH || "$2b$10$8StE1gmrFPlzMp.zVlOw2.";
+export const verifyJWT = async (req, _res, next) => {
+	const JWT_HASH = process.env.JWT_HASH;
 
-	const token = req.headers["authorization"]?.split(" ")[1];
+	if (!JWT_HASH) {
+		throw new AppError(500, "JWT_HASH not configured in the server");
+	}
+
+	const token = req.headers.authorization?.split(" ")[1];
 
 	if (!token) {
 		throw new AppError(400, "Missing token");

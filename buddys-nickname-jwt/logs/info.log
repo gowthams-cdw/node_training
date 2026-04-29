@@ -33,3 +33,5 @@
 2026-04-27T13:38:36.508Z DEBUG {"type":"response","requestId":"c5bef545-f3de-466e-9a46-34e68487f918","statusCode":403,"duration":"2s"}
 2026-04-27T13:38:42.069Z INFO {"type":"request","requestId":"70488207-238a-4b5d-9052-06a53ab21d1e","method":"POST","url":"/users/login","body":{"username":"silentFellow","password":"silentFellow"},"query":{},"ip":"::1"}
 2026-04-27T13:38:42.209Z INFO {"type":"response","requestId":"70488207-238a-4b5d-9052-06a53ab21d1e","statusCode":200,"duration":"140s"}
+2026-04-29T04:45:44.163Z INFO "MongoDB connected successfully!"
+2026-04-29T04:45:44.170Z INFO "App started at http://localhost:9999"

@@ -7,7 +7,7 @@ import { logger } from "../utils/logger.js";
  * @param {*} res - response from the server
  * @param {*} _next - next middleware function
  */
-export const errorHandlerMiddleware = (err, req, res, _next) => {
+export const handleError = (err, req, res, _next) => {
 	const requestId = req.requestId;
 	const {
 		statusCode = 500,
