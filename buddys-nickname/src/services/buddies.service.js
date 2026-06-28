@@ -7,7 +7,7 @@ import { DATA_FILE_PATH } from "../constants/index.js";
  * @returns {object} content from the json file
  */
 export const readBuddies = () => {
-	const data = fs.readFile(DATA_FILE_PATH, "utf-8");
+	const data = fs.readFileSync(DATA_FILE_PATH, "utf-8");
 	return JSON.parse(data);
 };
 
@@ -16,5 +16,5 @@ export const readBuddies = () => {
  * @param {object} new buddy data
  */
 export const writeBuddies = (buddies) => {
-	fs.writeFile(DATA_FILE_PATH, JSON.stringify(buddies, null, 2));
+	fs.writeFileSync(DATA_FILE_PATH, JSON.stringify(buddies, null, 2));
 };
